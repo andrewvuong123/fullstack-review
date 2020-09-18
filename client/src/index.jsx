@@ -19,9 +19,9 @@ class App extends React.Component {
     $.ajax({
       method: "POST",
       url: '/repos',
-      data: term,
+      data: {user: term},
       success: results => {
-        console.log("Success", results);
+        console.log("Success");
       }
     });
   }
