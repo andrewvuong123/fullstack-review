@@ -50,7 +50,6 @@ let save = (repos) => {
     // execution won't stop when trying to insert a record with same unique index, will skip over and insert rest
     { ordered: false }
   )
-  console.log('updated');
 }
 
 module.exports.Repo = Repo;
