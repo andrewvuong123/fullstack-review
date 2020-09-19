@@ -1,5 +1,5 @@
 const axios = require('axios');
-const config = require('../config.js');
+//const config = require('../config.js'); config.TOKEN
 
 let getReposByUsername = (username) => {
   // TODO - Use the axios module to request repos for a specific
@@ -11,7 +11,7 @@ let getReposByUsername = (username) => {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {
       'User-Agent': 'request',
-      'Authorization': `token ${process.env.GITHUBTOKEN || config.TOKEN}`
+      'Authorization': `token ${process.env.GITHUBTOKEN}`
     }
   };
   // return a Promise object, resolves with data from github API if found
