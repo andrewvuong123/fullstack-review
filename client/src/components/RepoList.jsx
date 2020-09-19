@@ -4,7 +4,9 @@ const RepoListEntry = (props) => {
   return (
     <div className="repo">
       <div className="top-border">
-        <a className="reponame" target="_blank" href={props.repo.url}>{props.repo.reponame}</a>
+        <a className="reponame" target="_blank" href={props.repo.userUrl}>{props.repo.username}</a>
+        <span className="slash"> / </span>
+        <a className="repourl" target="_blank" href={props.repo.repoUrl}>{props.repo.repoName}</a>
       </div>
       <div className="bottom-border">
         <h3 className="username">Username: {props.repo.username}</h3>

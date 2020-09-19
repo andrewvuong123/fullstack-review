@@ -11,9 +11,10 @@ db.once('open', function() {
 // define structure, (fields)
 let repoSchema = mongoose.Schema({
   _id: {type: Number, unique: true},
-  reponame: String,
+  repoName: String,
   username: String,
-  url: String,
+  userUrl: String,
+  repoUrl: String,
   description: String,
   updated: String,
   forks: Number
@@ -34,9 +35,10 @@ let save = (repos) => {
     let repo = repos[i];
     let data = {
       _id: repo.id,
-      reponame: repo.full_name,
+      repoName: repo.name,
       username: repo.owner.login,
-      url: repo.html_url,
+      repoUrl: repo.html_url,
+      userUrl: repo.owner.html_url,
       description: repo.description,
       updated: repo.updated_at,
       forks: repo.forks

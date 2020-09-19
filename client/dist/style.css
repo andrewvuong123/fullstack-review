@@ -15,6 +15,10 @@ body {
   margin-right: 10px;
 }
 
+.slash {
+  font-size: 30px;
+}
+
 h2 {
   text-align: center;
   font-size: 30px;
@@ -87,6 +91,18 @@ h2 {
 .reponame:hover {
   text-decoration: underline;
 }
+
+.repourl {
+  color: #0366d6;
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.repourl:hover {
+  text-decoration: underline;
+}
+
 
 .username {
   margin-left: 13px;
