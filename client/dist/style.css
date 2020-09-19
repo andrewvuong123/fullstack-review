@@ -37,12 +37,25 @@ h2 {
   outline: none;
 }
 
+::placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
 .search-btn {
-  height: 37px;
-  border-radius: 5%;
+  color: white;
+  height: 30px;
+  border-radius: 6%;
   margin-left: 15px;
   border: none;
   outline: none;
+  background-color: #4267b2;
+}
+
+.search-btn:hover{
+  border: none;
+  background-color:#34528F;
+  cursor: pointer;
 }
 
 .repo {
