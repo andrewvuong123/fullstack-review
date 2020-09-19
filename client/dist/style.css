@@ -15,6 +15,10 @@ body {
   margin-right: 10px;
 }
 
+.title:hover{
+  cursor: pointer;
+}
+
 .slash {
   font-size: 30px;
 }
@@ -63,7 +67,7 @@ h2 {
 }
 
 .repo-container {
-  margin: -4% 0% 0% 30%;
+  margin: -8% 0% 0% 30%;
   width: 50%;
 }
 
@@ -145,4 +149,5 @@ h2 {
 
 .user-list-entry:hover {
   text-decoration: underline;
+  cursor: pointer;
 }

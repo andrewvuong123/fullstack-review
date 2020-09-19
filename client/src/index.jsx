@@ -12,6 +12,7 @@ class App extends React.Component {
       repos: [],
       users: []
     }
+    this.handleUser = this.handleUser.bind(this);
   }
 
   // sends ajax req to server with username query
@@ -50,6 +51,23 @@ class App extends React.Component {
     });
   }
 
+  // handleUser gets that users top 10 repos
+  handleUser (username) {
+    $.ajax({
+      method:'GET',
+      url: '/repos',
+      data: {user: username},
+      success: results => {
+        console.log('success', results);
+        this.setState({
+          repos: results
+        });
+      }
+    });
+    // change html text
+    document.getElementById('header-2').innerHTML = `Top 10 repositories for @${username}`
+  }
+
   // sends ajax req to get an arr of repos from database once component has loaded to DOM
   componentDidMount() {
     this.update();
@@ -59,12 +77,12 @@ class App extends React.Component {
     return (
     <div>
       <header className="header">
-        <h1 className="title">Github Fetcher</h1>
+        <h1 className="title" onClick={() => window.location.reload(false)}>Github Fetcher</h1>
         <Search onSearch={this.search.bind(this)} />
       </header>
       <div>
-        <Users users={this.state.users} />
-        <h2>Here are the top 25 repositories...</h2>
+        <Users users={this.state.users} onUser={this.handleUser}/>
+        <h2 id="header-2">Here are the top 25 repositories...</h2>
         <RepoList repos={this.state.repos} />
       </div>
     </div>)

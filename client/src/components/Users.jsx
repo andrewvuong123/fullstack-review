@@ -6,7 +6,7 @@ const Users = (props) => (
       Users
     </div>
     {props.users.map(user =>
-      <a className="user-list-entry" target="_blank" href={`https://github.com/${user}`}> @{user} <br></br></a>
+      <p key={user} className="user-list-entry" onClick={() => {props.onUser(user)}}> @{user} <br></br></p>
     )}
   </div>
 )

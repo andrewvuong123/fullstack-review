@@ -27,14 +27,27 @@ app.post('/repos', async function (req, res) {
 // This route should send back the top 25 repos
 app.get('/repos', async function (req, res) {
   var results;
-  // query into database, get the top 25 repos with most forks/recent update
-  await db.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
-    if (err) {
-      console.log('error');
-    } else {
-      results = data;
-    }
-  });
+  // get username query from browser request
+  var user = req.query.user;
+  console.log('user', user);
+  if (user === undefined) {
+    // query into database, get the top 25 repos if no user specified
+    await db.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
+      if (err) {
+        console.log('error');
+      } else {
+        results = data;
+      }
+    });
+  } else { // if user specified from request, return top 10 repos from that user
+    await db.Repo.find({username: user}).sort({ forks: -1, created_at: -1 }).limit(10).exec((err, data) => {
+      if (err) {
+        console.log('error');
+      } else {
+        results = data;
+      }
+    });
+  }
   // send results from query once resolved
   res.status(200).send(results);
 });
