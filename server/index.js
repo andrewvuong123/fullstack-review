@@ -24,9 +24,20 @@ app.post('/repos', async function (req, res) {
   res.status(201).send("Database Updated!");
 });
 
-app.get('/repos', function (req, res) {
+app.get('/repos', async function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  var results;
+  // query into database, get the top 25 repos with most forks/recent update
+  await db.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
+    if (err) {
+      console.log('error');
+    } else {
+      results = data;
+    }
+  });
+  // send results from query once resolved
+  res.status(200).send(results);
 });
 
 let port = 1128;

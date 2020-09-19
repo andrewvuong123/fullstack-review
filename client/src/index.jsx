@@ -10,18 +10,29 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
-
   }
 
+  // sends ajax req to server with username query
   search (term) {
-    console.log(`${term} was searched`);
-    // TODO send post request to /repos
     $.ajax({
-      method: "POST",
+      method: 'POST',
       url: '/repos',
       data: {user: term},
       success: results => {
         console.log("Success");
+      }
+    });
+  }
+
+  // sends ajax req to get an arr of repos from database once component has loaded to DOM
+  componentDidMount() {
+    $.ajax({
+      method: 'GET',
+      url: '/repos',
+      success: results => {
+        this.setState({
+          repos: results
+        });
       }
     });
   }
