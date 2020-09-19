@@ -12,11 +12,6 @@ class App extends React.Component {
     }
   }
 
-  // sends ajax req to get an arr of repos from database once component has loaded to DOM
-  componentDidMount() {
-    this.update();
-  }
-
   // sends ajax req to server with username query
   search (term) {
     $.ajax({
@@ -42,6 +37,11 @@ class App extends React.Component {
         });
       }
     });
+  }
+
+  // sends ajax req to get an arr of repos from database once component has loaded to DOM
+  componentDidMount() {
+    this.update();
   }
 
   render () {
