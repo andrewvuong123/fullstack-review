@@ -12,6 +12,11 @@ class App extends React.Component {
     }
   }
 
+  // sends ajax req to get an arr of repos from database once component has loaded to DOM
+  componentDidMount() {
+    this.update();
+  }
+
   // sends ajax req to server with username query
   search (term) {
     $.ajax({
@@ -20,12 +25,14 @@ class App extends React.Component {
       data: {user: term},
       success: results => {
         console.log("Success");
+        // update after entering into form
+        this.update();
       }
     });
   }
 
-  // sends ajax req to get an arr of repos from database once component has loaded to DOM
-  componentDidMount() {
+  // update fcn sends get request to get top 25
+  update () {
     $.ajax({
       method: 'GET',
       url: '/repos',
