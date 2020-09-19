@@ -40,7 +40,10 @@ app.get('/repos', async function (req, res) {
   res.status(200).send(results);
 });
 
-let port = 1128;
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 1128;
+}
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
