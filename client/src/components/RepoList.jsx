@@ -17,7 +17,7 @@ const RepoListEntry = (props) => {
 }
 
 const RepoList = (props) => (
-    <div>
+    <div className="repo-container">
       {props.repos.map(repo =>
         <RepoListEntry key={repo._id} repo={repo} />
       )}

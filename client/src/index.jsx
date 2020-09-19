@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import Users from './components/Users.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      users: []
     }
   }
 
@@ -26,7 +28,7 @@ class App extends React.Component {
     });
   }
 
-  // update fcn sends get request to get top 25
+  // update fcn sends get req to top 25 and users
   update () {
     $.ajax({
       method: 'GET',
@@ -34,6 +36,15 @@ class App extends React.Component {
       success: results => {
         this.setState({
           repos: results
+        });
+      }
+    });
+    $.ajax({
+      method: 'GET',
+      url: '/users',
+      success: results => {
+        this.setState({
+          users: results
         });
       }
     });
@@ -49,10 +60,13 @@ class App extends React.Component {
     <div>
       <header className="header">
         <h1 className="title">Github Fetcher</h1>
-        <Search onSearch={this.search.bind(this)}/>
+        <Search onSearch={this.search.bind(this)} />
       </header>
-      <h2>Here are the top 25 repositories...</h2>
-      <RepoList repos={this.state.repos}/>
+      <div>
+        <Users users={this.state.users} />
+        <h2>Here are the top 25 repositories...</h2>
+        <RepoList repos={this.state.repos} />
+      </div>
     </div>)
   }
 }
