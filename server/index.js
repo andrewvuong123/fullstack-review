@@ -41,17 +41,19 @@ app.get('/repos', async function (req, res) {
     //     console.log('error');
     //   } else {
     //     results = data;
+    //     res.status(200).send(results);
     //   }
     // });
 
     // SQL DB IMPLEMENTATION
     var sql = `SELECT * FROM Repo ORDER BY updated, forks DESC`;
-    mysqlDB.query(sql, (err, data) => {
+    await mysqlDB.query(sql, (err, data) => {
       if (err) {
         console.log('error', err);
       } else {
-        console.log('top 25', data);
-        results = data;
+        //console.log('top 25', JSON.parse(JSON.stringify(data)));
+        results = JSON.parse(JSON.stringify(data));
+        res.status(200).send(results);
       }
     });
 
@@ -63,22 +65,22 @@ app.get('/repos', async function (req, res) {
     //     console.log('error');
     //   } else {
     //     results = data;
+    //     res.status(200).send(results);
     //   }
     // });
 
     // SQL DB IMPLEMENTATION
     var sql = `SELECT * FROM Repo WHERE username = '${user}' ORDER BY updated, forks DESC`
-    mysqlDB.query(sql, (err, data) => {
+    await mysqlDB.query(sql, (err, data) => {
       if (err) {
         console.log('error', err);
       } else {
-        console.log('user specific', data);
-        results = data;
+        console.log('user specific', JSON.stringify(data));
+        results = JSON.parse(JSON.stringify(data));
+        res.status(200).send(results);
       }
     });
   }
-  // send results from query once resolved
-  res.status(200).send(results);
 });
 
 // get request to get all users from db
@@ -91,20 +93,21 @@ app.get('/users', async function (req, res) {
   //     console.log('error');
   //   } else {
   //     results = data;
+  //     res.status(200).send(results);
   //   }
   // });
 
   // SQL DB IMPLEMENTATION
   var sql = `SELECT DISTINCT username FROM Repo`
-  mysqlDB.query(sql, (err, data) => {
+  await mysqlDB.query(sql, (err, data) => {
     if (err) {
       console.log('error', err);
     } else {
-      console.log('users', data);
-      results = data;
+      //console.log('users', JSON.stringify(data));
+      results = JSON.parse(JSON.stringify(data));
+      res.status(200).send(results);
     }
-  })
-  res.status(200).send(results);
+  });
 });
 
 let port = process.env.PORT;

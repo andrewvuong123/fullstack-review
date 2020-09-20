@@ -6,7 +6,7 @@ const Users = (props) => (
       Users
     </div>
     {props.users.map(user =>
-      <p key={user} className="user-list-entry" onClick={() => {props.onUser(user)}}> @{user} <br></br></p>
+      <p key={user.username} className="user-list-entry" onClick={() => {props.onUser(user.username)}}> @{user.username} <br></br></p>
     )}
   </div>
 )
