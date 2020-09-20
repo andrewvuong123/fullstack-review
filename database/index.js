@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/fetcher', {useNewUrlParse: true});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('database connected');
+  console.log('mongo database connected');
 })
 
 // define structure, (fields)

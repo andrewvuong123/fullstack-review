@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('../database/index.js');
+const mongoDB = require('../database/index.js');
+const mysqlDB = require('../database/mysql.js');
 const git = require('../helpers/github.js');
 let app = express();
 
@@ -18,8 +19,10 @@ app.post('/repos', async function (req, res) {
   var repos = await git.getReposByUsername(user);
   // get data from object returned by API
   repos = repos.data;
-  // save into db
-  db.save(repos);
+  // save into MONGO DB
+  // mongoDB.save(repos);
+  // save into mySQL DB
+  mysqlDB.save(repos);
   // send status
   res.status(201).send("Database Updated!");
 });
@@ -32,7 +35,7 @@ app.get('/repos', async function (req, res) {
   console.log('user', user);
   if (user === undefined) {
     // query into database, get the top 25 repos if no user specified
-    await db.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
+    await mongoDB.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
       if (err) {
         console.log('error');
       } else {
@@ -40,7 +43,7 @@ app.get('/repos', async function (req, res) {
       }
     });
   } else { // if user specified from request, return top 10 repos from that user
-    await db.Repo.find({username: user}).sort({ forks: -1, created_at: -1 }).limit(10).exec((err, data) => {
+    await mongoDB.Repo.find({username: user}).sort({ forks: -1, created_at: -1 }).limit(10).exec((err, data) => {
       if (err) {
         console.log('error');
       } else {
@@ -56,7 +59,7 @@ app.get('/repos', async function (req, res) {
 app.get('/users', async function (req, res) {
   var results;
   // query into database and get all users
-  await db.Repo.distinct('username', (err, data) => {
+  await mongoDB.Repo.distinct('username', (err, data) => {
     if (err) {
       console.log('error');
     } else {
