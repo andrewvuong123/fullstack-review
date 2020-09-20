@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoDB = require('../database/index.js');
+// const mongoDB = require('../database/index.js');
 const mysqlDB = require('../database/mysql.js');
 const git = require('../helpers/github.js');
 let app = express();
@@ -34,19 +34,45 @@ app.get('/repos', async function (req, res) {
   var user = req.query.user;
   console.log('user', user);
   if (user === undefined) {
+    // MONGO DB IMPLEMENTATION
     // query into database, get the top 25 repos if no user specified
-    await mongoDB.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
+    // await mongoDB.Repo.find().sort({ forks: -1, created_at: -1 }).limit(25).exec((err, data) => {
+    //   if (err) {
+    //     console.log('error');
+    //   } else {
+    //     results = data;
+    //   }
+    // });
+
+    // SQL DB IMPLEMENTATION
+    var sql = `SELECT * FROM Repo ORDER BY updated, forks DESC`;
+    mysqlDB.query(sql, (err, data) => {
       if (err) {
-        console.log('error');
+        console.log('error', err);
       } else {
+        console.log('top 25', data);
         results = data;
       }
     });
-  } else { // if user specified from request, return top 10 repos from that user
-    await mongoDB.Repo.find({username: user}).sort({ forks: -1, created_at: -1 }).limit(10).exec((err, data) => {
+
+  } else { // if user specified, return top 10 repos from that user
+
+    // MONGO DB IMPLEMENTATION
+    // await mongoDB.Repo.find({username: user}).sort({ forks: -1, created_at: -1 }).limit(10).exec((err, data) => {
+    //   if (err) {
+    //     console.log('error');
+    //   } else {
+    //     results = data;
+    //   }
+    // });
+
+    // SQL DB IMPLEMENTATION
+    var sql = `SELECT * FROM Repo WHERE username = '${user}' ORDER BY updated, forks DESC`
+    mysqlDB.query(sql, (err, data) => {
       if (err) {
-        console.log('error');
+        console.log('error', err);
       } else {
+        console.log('user specific', data);
         results = data;
       }
     });
@@ -58,14 +84,26 @@ app.get('/repos', async function (req, res) {
 // get request to get all users from db
 app.get('/users', async function (req, res) {
   var results;
+  // MONGO DB IMPLEMENTATION
   // query into database and get all users
-  await mongoDB.Repo.distinct('username', (err, data) => {
+  // await mongoDB.Repo.distinct('username', (err, data) => {
+  //   if (err) {
+  //     console.log('error');
+  //   } else {
+  //     results = data;
+  //   }
+  // });
+
+  // SQL DB IMPLEMENTATION
+  var sql = `SELECT DISTINCT username FROM Repo`
+  mysqlDB.query(sql, (err, data) => {
     if (err) {
-      console.log('error');
+      console.log('error', err);
     } else {
+      console.log('users', data);
       results = data;
     }
-  });
+  })
   res.status(200).send(results);
 });
 
